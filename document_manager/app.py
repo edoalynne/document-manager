@@ -5,5 +5,7 @@ class App:
         pass
 
     def run(self):
-        myRepo = Repo("C:/Jacob/Downloads/my-repo")
-        print(myRepo) 
+        myRepo = Repo("C:/jcb/my-repo")
+        print(myRepo)
+        for s in myRepo.documents:
+            print(s)

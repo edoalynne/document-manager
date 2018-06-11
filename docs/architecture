@@ -17,9 +17,9 @@ Repo-Data
 #Counter
 721
 #Fields
-(FieldName,FieldRID,FieldType,(TagRID:TagValue),)
+FieldRID,FieldName,FieldType,(TagRID:TagValue),
 #Documents
-DocumentSetRID(<DocumentSetRID(<DocumentRID,extension,(FieldRID:TagRID),>)>)
+DocumentSetRID,<DocumentSetRID,<DocumentRID,extension,(FieldRID:TagRID),>>
  // DocumentSets may be nested many times
 
 ResourceID

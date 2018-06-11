@@ -1,6 +1,10 @@
-from document_manager.base_doc import BaseDoc
+from document_manager.doc_element import DocElement
 
-class Document(BaseDoc):
-    def __init__(self):
-        self.extension = ""
-        self.tagPairs = []
+class Document(DocElement):
+    def __init__(self, resourceID, extension, descriptors):
+        self.resourceID = resourceID
+        self.extension = extension
+        self.descriptors = descriptors
+
+    def __str__(self):
+        return "RID=" + self.resourceID + ", extension=" + self.extension + ", descriptors=" + str(self.descriptors)

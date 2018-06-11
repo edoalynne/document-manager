@@ -96,17 +96,16 @@ class Repo:
 					mode = "counter"
 				elif line == "#Fields":
 					mode = "fields"
-				elif line == "#Documents":
-					mode = "documents"
+				elif line == "#DocumentSets":
+					mode = "documentSets"
 				# Read payload data
 				else:
 					if mode == "counter":
 						self.counter = int(line)
 					elif mode == "fields":
 						self.fields.append(self.parseField(line))
-					elif mode == "documents":
-						# TODO configure document support
-						self.documents.append(line)
+					elif mode == "documentSets":
+						self.documents.append(self.parseDocEntry(line))
 					else:
 						debug("Unused data in repo-data: " + repoDirPath + "repo-data")
 
@@ -133,3 +132,42 @@ class Repo:
 				tags.append(Tag(pair[0], pair[1]))
 
 		return Field(resourceID, name, type, tags)
+
+	def parseDocEntry(self, entry):
+		# Parse a set
+		if entry[0] == '{':
+			# Get ResourceID
+			cursor = entry.find(',')
+			setRID = entry[1:cursor]
+
+			# Get elements
+			setDocElements = []
+			while cursor < len(entry)-2:
+				# Get the element string
+				cursor += 1
+				startPos = cursor
+				stack = [entry[cursor]]
+				cursor += 1
+				while len(stack) > 0:
+					cursor += 1
+					if entry[cursor] == '{' or entry[cursor] == '[':
+						stack.append(entry[cursor])
+					elif entry[cursor] == '}' and stack[-1] == '{':
+						del stack[-1]
+					elif entry[cursor] == ']' and stack[-1] == '[':
+						del stack[-1]
+
+				# Add the element
+				setDocElements.append(self.parseDocEntry(entry[startPos:cursor+1]))
+
+			return DocumentSet(setRID, setDocElements)
+
+		# Parse a document		
+		elif entry[0] == '[':
+			entry = entry[1:-1].split(',')
+			docRID = entry[0]
+			extension = entry[1]
+			descriptors = []
+			for descriptor in entry[2:]:
+				descriptors.append([descriptor.split(':')[0], descriptor.split(':')[1]])
+			return Document(docRID, extension, descriptors)
