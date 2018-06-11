@@ -1,6 +1,6 @@
-from document_manager.doc_element import DocElement
+from document_manager.database.document_element import DocumentElement
 
-class Document(DocElement):
+class Document(DocumentElement):
     def __init__(self, resourceID, extension, descriptors):
         self.resourceID = resourceID
         self.extension = extension

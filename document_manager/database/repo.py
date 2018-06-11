@@ -1,7 +1,7 @@
-from document_manager.field import Field
-from document_manager.field import Tag
-from document_manager.document_set import DocumentSet
-from document_manager.document import Document
+from document_manager.database.field import Field
+from document_manager.database.field import Tag
+from document_manager.database.document_set import DocumentSet
+from document_manager.database.document import Document
 from document_manager.settings import debug
 
 import os
@@ -20,7 +20,7 @@ class Repo:
 
 		self.counter = -1
 		self.fields = []
-		self.documents = []
+		self.documentSets = []
 
 		# Ensure repo exists in proper configuration
 		if not os.path.exists(repoDirPath + "repo-config") or \
@@ -51,7 +51,7 @@ class Repo:
 		s += "fields=\n"
 		for field in self.fields:
 			s += "  ~  " + str(field) + "\n"
-		s += "documentCount=" + str(len(self.documents))
+		s += "documentCount=" + str(len(self.documentSets))
 		return s
 
 
@@ -105,7 +105,7 @@ class Repo:
 					elif mode == "fields":
 						self.fields.append(self.parseField(line))
 					elif mode == "documentSets":
-						self.documents.append(self.parseDocEntry(line))
+						self.documentSets.append(self.parseDocEntry(line))
 					else:
 						debug("Unused data in repo-data: " + repoDirPath + "repo-data")
 

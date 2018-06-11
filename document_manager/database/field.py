@@ -1,4 +1,4 @@
-from document_manager.tag import Tag
+from document_manager.database.tag import Tag
 
 class Field:
     def __init__(self, resourceID, name, type, tags):
