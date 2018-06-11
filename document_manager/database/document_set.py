@@ -6,8 +6,8 @@ class DocumentSet(DocumentElement):
         self.elements = elements
 
     def __str__(self):
-        s = "resourceID=" + self.resourceID + "\n"
-        for d in self.elements:
-            s += str(d) + "\n"
-        s += "--"
+        s = "{" + self.resourceID + ","
+        for element in self.elements:
+            s += str(element)  
+        s += "}"
         return s

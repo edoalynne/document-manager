@@ -7,4 +7,6 @@ class Document(DocumentElement):
         self.descriptors = descriptors
 
     def __str__(self):
-        return "RID=" + self.resourceID + ", extension=" + self.extension + ", descriptors=" + str(self.descriptors)
+        s = "[" + self.resourceID + "," + self.extension
+        for descriptor in self.descriptors:
+            s += "," + descriptor[0] + ":" + descriptor[1]
