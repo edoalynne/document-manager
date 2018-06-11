@@ -1,0 +1,28 @@
+Repo File Structure
+/my-repo
+    /repo-documents
+        ([ResourceID.extension])
+    repo-config
+    repo-data
+
+Repo-Config
+#Name
+My Repo
+#SetLayerNames
+(LayerName)
+#Headers
+(domain:(header),)
+
+Repo-Data
+#Counter
+721
+#Fields
+(FieldName,FieldRID,FieldType,(TagRID:TagValue),)
+#Documents
+DocumentSetRID(<DocumentSetRID(<DocumentRID,extension,(FieldRID:TagRID),>)>)
+ // DocumentSets may be nested many times
+
+ResourceID
+X#######
+X = Type, may be Field(F), Tag(T), DocumentSet(S), Document(D)
+# = UniqueID, chosen sequentially by counter shared amoung all repo objects
