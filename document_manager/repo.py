@@ -1,4 +1,5 @@
 from document_manager.field import Field
+from document_manager.field import Tag
 from document_manager.document_set import DocumentSet
 from document_manager.document import Document
 from document_manager.settings import debug
@@ -102,8 +103,7 @@ class Repo:
 					if mode == "counter":
 						self.counter = int(line)
 					elif mode == "fields":
-						# TODO configure field support
-						self.fields.append(line)
+						self.fields.append(self.parseField(line))
 					elif mode == "documents":
 						# TODO configure document support
 						self.documents.append(line)
@@ -115,3 +115,21 @@ class Repo:
 			return False
 		
 		return True
+
+	
+	def parseField(self, line):
+		line = line.split(',')
+
+		# Parse resourceID, name, and type
+		resourceID = line[0]
+		name = line[1]
+		type = line[2]
+
+		# Parse tags
+		tags = []
+		if len(line) > 3:
+			for pair in line[3:]:
+				pair = pair.split(':')
+				tags.append(Tag(pair[0], pair[1]))
+
+		return Field(resourceID, name, type, tags)
