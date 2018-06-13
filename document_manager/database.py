@@ -4,12 +4,12 @@ import os
 
 def createRepo(repoPath, name):
     # Fix slashes and add trailing slash
-    repoPath.replace("\\", "/")
+    repoPath = repoPath.replace("\\", "/")
     if repoPath[-1] != "/":
         repoPath += "/"
 
     # Ensure file structure is correct
-    repoParentPath = repoParentPath[:repoPath[:-1].rfind('/')]
+    repoParentPath = repoPath[:repoPath[:-1].rfind('/')]
     if not os.path.exists(repoParentPath):
         print("ERROR: Parent path for new repo does not exist.")
         print("\tname=" + name)
@@ -21,6 +21,9 @@ def createRepo(repoPath, name):
         print("\tname=" + name)
         print("\tpath=" + repoPath)
         return False
+
+    # Create the directory
+    os.mkdir(repoPath)
 
     # Create the config file
     configRoot = ET.Element("repo")
@@ -35,19 +38,23 @@ def createRepo(repoPath, name):
     c = db.cursor()
 
     # Create tables
-    c.execute("CREATE TABLE fields(id TEXT, name TEXT, type TEXT)")
-    c.execute("CREATE TABLE tags(id TEXT, value TEXT)")
+    c.execute("CREATE TABLE Fields(FieldID INTEGER, Name TEXT, Type TEXT)")
+    c.execute("CREATE TABLE Tags(TagID INTEGER, Value TEXT)")
+    c.execute("CREATE TABLE TagAssignments(TagAssignmentID TEXT, FieldID INTEGER, TagID INTEGER)")
     db.commit()
 
     # Insert Config entry
-    c.execute("INSERT INTO fields(id, name, type) VALUES(?,?,?)", ("F123", "Cool Field", "Strict"))
+    c.execute("INSERT INTO Fields(FieldID, Name, Type) VALUES(?,?,?)", (0, "Cool Field", "Strict"))
+    c.execute("INSERT INTO Fields(FieldID, Name, Type) VALUES(?,?,?)", (1, "Nice Field", "Loose"))
+    c.execute("INSERT INTO Tags(TagID, Value) VALUES(?,?)", (0, "Hot Tag"))
+    c.execute("INSERT INTO Tags(TagID, Value) VALUES(?,?)", (1, "Cold Tag"))
+    c.execute("INSERT INTO Tags(TagID, Value) VALUES(?,?)", (2, "Warm Tag"))
+    c.execute("INSERT INTO Tags(TagID, Value) VALUES(?,?)", (3, "Chilly Tag"))
+    c.execute("INSERT INTO TagAssignments(TagAssignmentID, FieldID, TagID) VALUES(?,?,?)", (0, 0, 1))
+    c.execute("INSERT INTO TagAssignments(TagAssignmentID, FieldID, TagID) VALUES(?,?,?)", (1, 0, 3))
+    c.execute("INSERT INTO TagAssignments(TagAssignmentID, FieldID, TagID) VALUES(?,?,?)", (2, 1, 0))
+    c.execute("INSERT INTO TagAssignments(TagAssignmentID, FieldID, TagID) VALUES(?,?,?)", (3, 1, 2))
     db.commit()
     db.close()
 
     print("New repo created: " + repoPath)
-
-
-class Database:
-    def __init__(self, databasePath):
-        self.conn = sqlite3.connect(databasePath)
-        self.c = self.conn.cursor()
