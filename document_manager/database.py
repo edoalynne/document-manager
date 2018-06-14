@@ -2,6 +2,40 @@ import xml.etree.ElementTree as ET
 import sqlite3
 import os
 
+class Repo:
+    def __init__(self):
+        pass
+
+    def create(self, path, name):
+
+    def load(self, path):
+
+    def createField(self, name, type, priority, color):
+
+    def updateField(self, id, name=None, type=None, priority=None, color=None):
+
+    def removeField(self, id):
+
+    def createTag(self, value, parent_id):
+
+    def updateTag(self, value=None, parent_id=None):
+
+    def removeTag(self, id):
+
+    def createDocumentSet(self, parent_id):
+
+    def updateDocumentSet(self, parent_id=None):
+
+    def removeDocumentSet():
+
+    def createDocument():
+
+    def updateDocument():
+
+    def removeDocument():
+    
+
+'''
 def createRepo(repoPath, name):
     # Fix slashes and add trailing slash
     repoPath = repoPath.replace("\\", "/")
@@ -58,3 +92,4 @@ def createRepo(repoPath, name):
     db.close()
 
     print("New repo created: " + repoPath)
+'''

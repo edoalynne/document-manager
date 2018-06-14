@@ -18,8 +18,9 @@ CREATE TABLE Tags (
 ~~~
 ~~~
 CREATE TABLE DocumentSets (
-	id INTEGER PRIMARY KEY AUTOINCREMENT
+	id INTEGER PRIMARY KEY AUTOINCREMENT,
 	parent_id INTEGER,
+	sequence_order INTEGER,
 	FOREIGN KEY(parent_id) REFERENCES DocumentSets(id)
 );
 ~~~
