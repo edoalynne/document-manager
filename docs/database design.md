@@ -20,7 +20,6 @@ CREATE TABLE Tags (
 CREATE TABLE DocumentSets (
 	id INTEGER PRIMARY KEY AUTOINCREMENT
 	parent_id INTEGER,
-	level INTEGER DEFAULT 0,
 	FOREIGN KEY(parent_id) REFERENCES DocumentSets(id)
 );
 ~~~
