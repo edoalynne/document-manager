@@ -59,7 +59,23 @@ class Repo:
         self.c = self.db.cursor()
 
         # Create tables
-        # TODO
+        self.c.execute('''
+            CREATE TABLE Fields (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                name TEXT,
+                vocab TEXT,
+                priority INTEGER,
+                color TEXT
+            );
+        ''')
+        self.c.execute('''
+            CREATE TABLE Tags (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                value TEXT,
+                parent_id INTEGER,
+                FOREIGN KEY(parent_id) REFERENCES Fields(id)
+            );
+        ''')
 
         # Create managers
         self.field = FieldManager(self.db, self.c)

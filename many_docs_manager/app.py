@@ -5,5 +5,5 @@ class App:
         pass
 
     def run(self):
-        myRepo = Repo("C:/Jacob/Documents/Projects/_box/My Repo")
+        myRepo = Repo("C:/Jacob/Documents/Projects/_box/", "My Repo")
         print(myRepo)
