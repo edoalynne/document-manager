@@ -3,10 +3,10 @@ class TagManager:
         self.db = database
         self.c = cursor
 
-    def create(self, ???):
+    def create(self):
         pass
 
-    def update(self, id, ???):
+    def update(self, id):
         pass
 
     def remove(self, id):

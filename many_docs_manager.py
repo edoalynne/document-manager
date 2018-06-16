@@ -1,4 +1,4 @@
-from document_manager.app import App
+from many_docs_manager.app import App
 
 if __name__ == "__main__":
     app = App()
