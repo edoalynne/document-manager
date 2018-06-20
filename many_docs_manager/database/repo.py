@@ -1,5 +1,7 @@
 from many_docs_manager.database.field_manager import FieldManager
 from many_docs_manager.database.tag_manager import TagManager
+from many_docs_manager.database.doc_manager import DocManager
+from many_docs_manager.database.doc_set_manager import DocSetManager
 
 import os
 import sqlite3
@@ -12,6 +14,8 @@ class Repo:
         self.c = None
         self.field = None
         self.tag = None
+        self.doc = None
+        self.doc_set = None
 
         # If name parameter is set, create a new repo
         if name != None:
@@ -76,10 +80,28 @@ class Repo:
                 FOREIGN KEY(parent_id) REFERENCES Fields(id)
             );
         ''')
+        self.c.execute('''
+            CREATE TABLE Docs (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                extension TEXT,
+                parent_id INTEGER,
+                sort_order INTEGER,
+                FOREIGN KEY(parent_id) REFERENCES DocSets(id)
+            );
+        ''')
+        self.c.execute('''
+            CREATE TABLE DocSets (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                parent_id INTEGER,
+                sort_order INTEGER,
+                child_count INTEGER,
+                FOREIGN KEY(parent_id) REFERENCES DocSets(id)
+            );
+        ''')
 
         # Create managers
-        self.field = FieldManager(self.db, self.c)
         self.tag = TagManager(self.db, self.c)
+        self.field = FieldManager(self.db, self.c, self.tag)
 
     def __load(self, path):
         # Verify path
@@ -110,5 +132,5 @@ class Repo:
         self.c = self.db.cursor()
 
         # Create managers
-        self.field = FieldManager(self.db, self.c)
         self.tag = TagManager(self.db, self.c)
+        self.field = FieldManager(self.db, self.c, self.tag)
